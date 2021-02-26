@@ -5,14 +5,14 @@ const apiKey = 'b10801ef6949b470e6684d57297e11b2'
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+let newDate = d.getMonth() + 1 + '.'+ d.getDate() + '.' + d.getFullYear();
 
 document.getElementById('generate').addEventListener('click', performAction);
 
 
 const getWeather = async () => {
     const zipCode = document.getElementById('zip').value;
-    const endPoint = `${baseURL}?zip=${zipCode}&appid=${apiKey}`;
+    const endPoint = `${baseURL}?zip=${zipCode}&appid=${apiKey}&units=metric`;
     console.log(zipCode);
     console.log(endPoint);
 
@@ -75,11 +75,22 @@ const updateUI = async() => {
         if (response.ok) {
             const jsonResponse = await response.json();
             document.getElementById('date').innerHTML = jsonResponse.date;
-            document.getElementById('temp').innerHTML = jsonResponse.temp;
+            document.getElementById('temp').innerHTML = jsonResponse.temp + ' °C';
             document.getElementById('content').innerHTML = jsonResponse.content;
-        }
+            
+            if(jsonResponse.temp <= 15) {
+                console.log('Its getting cold outside. Stay safe - ', jsonResponse.temp);
+                document.getElementById('tempFeeling').innerHTML = 'Its cold outside. Stay safe!';
+            } else if(jsonResponse.temp > 15 && jsonResponse.temp <= 28) {
+                console.log('Its a lovely warm day, have fun - ', jsonResponse.temp);
+                document.getElementById('tempFeeling').innerHTML = 'Its a warm lovely day, have fun.';
+            } else {
+                console.log('Its super hot outside. Stay Hydrated!!! - ', jsonResponse.temp);
+                document.getElementById('tempFeeling').innerHTML = 'Its super hot outside. Stay Hydrated!!!';
+            }
+        };
 
     } catch (error) {
         console.log('error', error);
-    }
-}
+    };
+};

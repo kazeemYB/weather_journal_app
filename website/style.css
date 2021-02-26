@@ -49,7 +49,11 @@ form {
 }
 
 #content::before {
-    content: "How Are You Feeling : ";
+    content: "How Are You Feeling Today? : ";
+}
+
+#tempFeeling::before {
+    content: "Comment : ";
 }
 
 .headline {
